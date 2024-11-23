@@ -1,43 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PennyWise</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1 class="logo">PennyWise</h1>
+      <nav class="navbar">
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#benefits">Benefits</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#download" class="btn-primary">Download</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+  <main class="main-content">
+    <section class="hero">
+      <div class="container">
+        <h2>Take Control of Your Finances</h2>
+        <p>Track your expenses, set financial goals, and achieve your dreams with ease.</p>
+        <a href="#download" class="btn-primary">Get Started</a>
+      </div>
+    </section>
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+    <section id="features" class="features">
+      <div class="container">
+        <h2>Key Features</h2>
+        <div class="feature-grid">
+          <div class="feature-item">
+            <h3>Expense Tracking</h3>
+            <p>Keep a detailed record of your spending habits.</p>
+          </div>
+          <div class="feature-item">
+            <h3>Budget Alerts</h3>
+            <p>Get notified when you approach your budget limit.</p>
+          </div>
+          <div class="feature-item">
+            <h3>Data Visualization</h3>
+            <p>Visualize your financial health with graphs and charts.</p>
+          </div>
+          <div class="feature-item">
+            <h3>Goal Setting</h3>
+            <p>Define and track your savings goals easily.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <section id="benefits" class="benefits">
+      <div class="container">
+        <h2>Why Choose Us?</h2>
+        <p>Our app is designed to empower you with financial awareness and control.</p>
+        <ul>
+          <li>Simple and user-friendly interface</li>
+          <li>Secure data handling</li>
+          <li>Available on mobile and desktop</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="faq" class="faq">
+      <div class="container">
+        <h2>Frequently Asked Questions</h2>
+        <p>Have questions? We've got answers.</p>
+        <ul>
+          <li>How do I set a budget?</li>
+          <li>Is my data secure?</li>
+          <li>Can I connect my bank account?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="download" class="download">
+      <div class="container">
+        <h2>Download the App</h2>
+        <p>Available on Google Play and the App Store.</p>
+        <div class="buttons">
+          <a href="#" class="btn-secondary">Google Play</a>
+          <a href="#" class="btn-secondary">App Store</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Budget Tracker. All Rights Reserved.</p>
+    </div>
+  </footer>
+  <div id="root"></div> <!-- This is the target container -->
+    <script src="./index.js"></script>
+</body>
 </html>

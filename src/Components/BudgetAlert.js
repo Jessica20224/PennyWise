@@ -1,17 +1,30 @@
 // BudgetAlert.js
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-function BudgetAlert({ transactions, budgetLimit }) {
-  const [alert, setAlert] = useState(false);
+const BudgetAlert = ({ transactions = [], budgetLimit }) => {
+  // Safely filter transactions based on a category or condition
+  const overBudgetTransactions = transactions.filter(
+    (transaction) => transaction.amount > budgetLimit
+  );
 
-  useEffect(() => {
-    const totalExpense = transactions
-      .filter((t) => t.type === "Expense")
-      .reduce((sum, t) => sum + parseFloat(t.amount), 0);
-    setAlert(totalExpense > budgetLimit);
-  }, [transactions, budgetLimit]);
+  return (
+    <div>
+      {overBudgetTransactions.length > 0 ? (
+        <div>
+          <h3>Warning: You have overspent in the following categories:</h3>
+          <ul>
+            {overBudgetTransactions.map((transaction, index) => (
+              <li key={index}>
+                {transaction.category}: ${transaction.amount}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : (
+        <p>Your spending is within budget!</p>
+      )}
+    </div>
+  );
+};
 
-  return <>{alert && <p style={{ color: "red" }}>Alert: You have exceeded your budget!</p>}</>;
-}
-
-export default BudgetAlert
+export default BudgetAlert;

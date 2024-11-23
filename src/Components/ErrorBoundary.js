@@ -1,7 +1,7 @@
 // ErrorBoundary.js
-import React, { Component } from "react";
+import React from 'react';
 
-class ErrorBoundary extends Component {
+class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
@@ -12,16 +12,16 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.error("ErrorBoundary caught an error", error, errorInfo);
+    console.error('Error caught by ErrorBoundary:', error, errorInfo);
     this.setState({ errorInfo });
   }
 
   render() {
     if (this.state.hasError) {
       return (
-        <div>
+        <div style={{ padding: '20px', border: '1px solid red', background: '#ffeeee' }}>
           <h2>Something went wrong.</h2>
-          <details style={{ whiteSpace: "pre-wrap" }}>
+          <details style={{ whiteSpace: 'pre-wrap' }}>
             {this.state.error && this.state.error.toString()}
             <br />
             {this.state.errorInfo?.componentStack}
@@ -34,3 +34,4 @@ class ErrorBoundary extends Component {
 }
 
 export default ErrorBoundary;
+

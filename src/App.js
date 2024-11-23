@@ -1,45 +1,133 @@
 // App.js
-import React, { useState } from "react";
-import UserRegistration from "./Components/UserRegistration";
-import ExpenseTracker from "./Components/ExpenseTracker";
-import GoalSetting from "./Components/GoalSetting";
-import SpendingChart from "./Components/SpendingChart";
-import BudgetAlert from "./Components/BudgetAlert";
-import ErrorBoundary from "./Components/ErrorBoundary";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import ErrorBoundary from './Components/ErrorBoundary'; // Import the ErrorBoundary component
+import LoginOrRegister from './Components/LoginorRegister'; // Login/Sign-Up Component
+import Dashboard from './Components/Dashboard'; // Dashboard (home page after login)
+import ExpenseTrackerPage from './Components/ExpenseTracker'; // ExpenseTracker Component Page
+import GoalSettingPage from './Components/GoalSetting'; // GoalSetting Component Page
+import SpendingChartPage from './Components/SpendingChart'; // SpendingChart Component Page
+import BudgetAlertPage from './Components/BudgetAlert'; // BudgetAlert Component Page
 
 function App() {
-  const [transactions, setTransactions] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+   // Check for authentication on load
+   useEffect(() => {
+    const authStatus = localStorage.getItem('isAuthenticated');
+    setIsAuthenticated(authStatus === 'true');
+  }, []);
+
+  const handleLoginSuccess = () => {
+    setIsAuthenticated(true); // Set to true once the user successfully logs in
+    localStorage.setItem('isAuthenticated', 'true'); // Store authentication status
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('isAuthenticated'); // Clear authentication status
+  };
 
   return (
-    <div className="App">
-     
-      <ErrorBoundary>
-        <UserRegistration />
-      </ErrorBoundary>
+    <ErrorBoundary>
+      <Router>
+        <div className="App">
+          <Routes>
+            {/* Login/Register */}
+            <Route
+              path="/login"
+              element={
+                <ErrorBoundary>
+                  <LoginOrRegister onLoginSuccess={handleLoginSuccess} />
+                </ErrorBoundary>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <ErrorBoundary>
+                  <LoginOrRegister onLoginSuccess={handleLoginSuccess} />
+                </ErrorBoundary>
+              }
+            />
 
-      <ErrorBoundary>
-        <ExpenseTracker
-          transactions={transactions}
-          setTransactions={setTransactions}
-        />
-      </ErrorBoundary>
+            {/* Dashboard */}
+            <Route
+              path="/dashboard"
+              element={
+                isAuthenticated ? (
+                  <ErrorBoundary>
+                    <Dashboard onLogout={handleLogout}/>
+                  </ErrorBoundary>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
 
-      <ErrorBoundary>
-        <GoalSetting />
-      </ErrorBoundary>
+            {/* Specific Component Pages */}
+            <Route
+              path="/expense-tracker"
+              element={
+                isAuthenticated ?(
+                  <ErrorBoundary>
+                    <Dashboard onLogout={handleLogout} /> 
+                  </ErrorBoundary>
+                ) :(
+                 
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/goal-setting"
+              element={
+                isAuthenticated ? (
+                  <ErrorBoundary>
+                    <GoalSettingPage />
+                  </ErrorBoundary>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/spending-chart"
+              element={
+                isAuthenticated ? (
+                  <ErrorBoundary>
+                    <SpendingChartPage />
+                  </ErrorBoundary>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/budget-alert"
+              element={
+                isAuthenticated ? (
+                  <ErrorBoundary>
+                    <BudgetAlertPage />
+                  </ErrorBoundary>
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
 
-      <ErrorBoundary>
-        <SpendingChart transactions={transactions} />
-      </ErrorBoundary>
-
-      <ErrorBoundary>
-        <BudgetAlert transactions={transactions} budgetLimit={500} />
-      </ErrorBoundary>
-    </div>
+            {/* Default Route */}
+            <Route
+              path="/"
+              element={
+                isAuthenticated ? <Navigate to="/dashboard" /> : <Navigate to="/login" />
+              }
+            />
+          </Routes>
+        </div>
+      </Router>
+    </ErrorBoundary>
   );
 }
 
 export default App;
-
-
-
