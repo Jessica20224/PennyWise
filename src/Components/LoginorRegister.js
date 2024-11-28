@@ -1,7 +1,10 @@
 // LoginorRegister.js
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
+
 
 function LoginOrRegister({ onLoginSuccess }) {
+  const navigate = useNavigate();
   const [isSignUp, setIsSignUp] = useState(false); // Track if it's sign-up or login
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +20,7 @@ function LoginOrRegister({ onLoginSuccess }) {
       // Handle the login logic (verify email and password)
       console.log('User logged in with:', { email, password });
       onLoginSuccess(); // Callback to indicate successful login
+      navigate("/dashboard")
     }
   };
 

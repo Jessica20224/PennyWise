@@ -71,7 +71,7 @@ function App() {
               element={
                 isAuthenticated ?(
                   <ErrorBoundary>
-                    <Dashboard onLogout={handleLogout} /> 
+                    <ExpenseTrackerPage /> 
                   </ErrorBoundary>
                 ) :(
                  

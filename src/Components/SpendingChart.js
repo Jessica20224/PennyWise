@@ -4,25 +4,23 @@ import Chart from "chart.js/auto"; // Ensure this is imported for charts to work
 
 const SpendingChart = ({ transactions = [] }) => {
   const chartRef = useRef(null); // Reference to the chart's canvas
-  const chartInstance = useRef(null); // To store the Chart.js instance
+  // const chartInstance = useRef(null); // To store the Chart.js instance
 
   useEffect(() => {
-    if (chartInstance.current) {
-      chartInstance.current.destroy(); // Destroy previous chart instance before re-rendering
-    }
+    const ctx = chartRef.current.getContext("2d");
 
-    const categories = transactions.map((t) => t.category || "Uncategorized");
-    const amounts = transactions.map((t) => t.amount || 0);
+    // const categories = transactions.map((t) => t.category || "Uncategorized");
+    // const amounts = transactions.map((t) => t.amount || 0);
 
     // Create a new chart
-    chartInstance.current = new Chart(chartRef.current, {
+    const myChart = new Chart(ctx, {
       type: "bar", // Bar chart
       data: {
-        labels: categories,
+        labels:['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
           {
             label: "Spending by Category",
-            data: amounts,
+            data: [12, 19, 3, 5, 2, 3],
             backgroundColor: "rgba(75, 192, 192, 0.6)", // Customize colors
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
@@ -48,17 +46,12 @@ const SpendingChart = ({ transactions = [] }) => {
         },
       },
     });
-  }, [transactions]); // Re-render the chart when `transactions` changes
+     return myChart.destroy();
 
-  return (
-    <div style={{ height: "400px", width: "600px" }}>
-      {transactions.length > 0 ? (
-        <canvas ref={chartRef}></canvas>
-      ) : (
-        <p>No transactions available to display.</p>
-      )}
-    </div>
-  );
+  }, []); // Re-render the chart when `transactions` changes
+
+  return <canvas ref={chartRef}></canvas>;
+  
 };
 
 export default SpendingChart;
