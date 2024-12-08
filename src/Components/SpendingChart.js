@@ -1,27 +1,39 @@
-//SpendingChart.js
 import React, { useEffect, useRef } from "react";
-import Chart from "chart.js/auto"; // Ensure this is imported for charts to work properly
+import Chart from "chart.js/auto";
 
 const SpendingChart = ({ transactions = [] }) => {
-  const chartRef = useRef(null); // Reference to the chart's canvas
-  // const chartInstance = useRef(null); // To store the Chart.js instance
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
   useEffect(() => {
+    // Destroy existing chart if it exists
+    if (chartInstance.current) {
+      chartInstance.current.destroy();
+    }
+
     const ctx = chartRef.current.getContext("2d");
 
-    // const categories = transactions.map((t) => t.category || "Uncategorized");
-    // const amounts = transactions.map((t) => t.amount || 0);
+    // Default data if no transactions
+    const defaultData = [12, 19, 3, 5, 2, 3];
+    const labels =
+      transactions.length > 0
+        ? transactions.map((t) => t.category || "Uncategorized")
+        : ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
 
-    // Create a new chart
-    const myChart = new Chart(ctx, {
-      type: "bar", // Bar chart
+    const amounts =
+      transactions.length > 0
+        ? transactions.map((t) => t.amount || 0)
+        : defaultData;
+
+    chartInstance.current = new Chart(ctx, {
+      type: "bar",
       data: {
-        labels:['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: labels,
         datasets: [
           {
             label: "Spending by Category",
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: "rgba(75, 192, 192, 0.6)", // Customize colors
+            data: amounts,
+            backgroundColor: "rgba(75, 192, 192, 0.6)",
             borderColor: "rgba(75, 192, 192, 1)",
             borderWidth: 1,
           },
@@ -46,12 +58,20 @@ const SpendingChart = ({ transactions = [] }) => {
         },
       },
     });
-     return myChart.destroy();
 
-  }, []); // Re-render the chart when `transactions` changes
+    // Cleanup function
+    return () => {
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
+    };
+  }, [transactions]); // Add transactions to dependency array
 
-  return <canvas ref={chartRef}></canvas>;
-  
+  return (
+    <div style={{ width: "100%", height: "300px" }}>
+      <canvas ref={chartRef} style={{ width: "100%", height: "100%" }}></canvas>
+    </div>
+  );
 };
 
 export default SpendingChart;
